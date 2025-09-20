@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>반응속도 스톱버튼 게임 – 목표 시간에 딱 맞춰 멈춰라!</title>
+  <meta name="description" content="원페이지 미니게임: 시작→STOP! 목표 시간에 딱 맞추면 하이 스코어. 난이도, 연속 라운드, 심리 트릭, 시각 효과, 사운드, 로컬 기록, 카카오 공유 지원." />
+  <meta name="keywords" content="반응속도, 타이밍 게임, 스톱버튼, 원페이지, 브라우저 게임, 타이머 게임, 집중력 게임, 카카오 공유, 반응속도 테스트" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://stop-watch-game.enjoy-onepage.com" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="반응속도 스톱버튼 게임 – 목표 시간에 맞춰 멈춰라!" />
+  <meta property="og:description" content="시작→STOP! 목표 시간에 딱 맞추면 하이 스코어. 난이도/연속 라운드/심리 트릭/시각 효과/사운드 지원." />
+  <meta property="og:url" content="https://stop-watch-game.enjoy-onepage.com" />
+  <meta property="og:image" content="https://stop-watch-game.enjoy-onepage.com/og-image-stop-game.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="반응속도 스톱버튼 게임 – 목표 시간에 딱 맞춰 멈춰라!" />
+  <meta name="twitter:description" content="원페이지 타이밍 게임. 목표 시간에 딱 맞춰 STOP! 기록 저장+공유 지원." />
+  <meta name="twitter:image" content="https://stop-watch-game.enjoy-onepage.com/og-image-stop-game.png" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "반응속도 스톱버튼 게임",
+    "url": "https://stop-watch-game.enjoy-onepage.com",
+    "description": "브라우저에서 즐기는 타이밍 스톱버튼 게임. 목표 시간에 맞춰 STOP을 눌러 기록을 세워보세요.",
+    "potentialAction": {
+      "@type": "PlayAction",
+      "name": "Start Game",
+      "target": "https://stop-watch-game.enjoy-onepage.com"
+    }
+  }
+  </script>
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Google AdSense (replace client/slot on deploy) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2228289204702106" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg: #f8fafc;        /* slate-50 */
+      --panel: #ffffff;     /* white */
+      --panel-2: #f1f5f9;   /* slate-100 */
+      --text: #0f172a;      /* slate-900 */
+      --muted: #334155;     /* slate-700 */
+      --accent: #2563eb;    /* blue-600 */
+      --accent-2: #a78bfa;  /* violet-400 */
+      --good: #16a34a;      /* green-600 */
+      --bad: #dc2626;       /* red-600 */
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    header { max-width: 980px; margin: 0 auto; padding: 20px 16px; }
+    .title { font-size: clamp(22px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; }
+    .subtitle { color: var(--muted); margin-top: 6px; }
+
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.06);
+      padding: 16px;
+      min-width: 0; /* prevent grid overflow */
+      max-width: 100%;
+      overflow: visible; /* allow inner visuals */
+    }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; align-items: end; min-width: 0; }
+    .field label { display:block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .select, .input, .toggle, .btn { width: 100%; }
+
+    .select, .input {
+      appearance: none; background: #fff; color: var(--text);
+      border: 1px solid rgba(0,0,0,.1); border-radius: 12px; padding: 10px 12px; outline: none;
+      min-width: 0; /* avoid overflow from long numbers */
+    }
+    .toggle { display: flex; gap: 8px; align-items: center; }
+    .toggle input { transform: scale(1.1); }
+
+    .btn {
+      border: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #fff; font-weight: 800; border-radius: 999px; padding: 14px 16px;
+      cursor: pointer; transition: transform .08s ease, filter .2s ease;
+      max-width: 100%;
+    }
+    .btn:active { transform: translateY(1px) scale(.995); filter: brightness(.95); }
+    .btn.secondary { background: #e2e8f0; color: var(--text); border: 1px solid rgba(0,0,0,.1); }
+    .btn.ghost { background: transparent; border: 1px dashed rgba(0,0,0,.2); color: var(--text); }
+
+    .grid2 { display:grid; grid-template-columns: minmax(0,1fr) 360px; gap: 16px; }
+    @media (max-width: 900px){ .grid2 { grid-template-columns: 1fr; } }
+
+    /* Timer stage */
+    .stage { display:grid; place-items:center; padding: 24px; position: relative; overflow: visible; border-radius: 12px; background:#f9fafb; min-width: 0; }
+    .stage.pressure { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%{ box-shadow: 0 0 0 0 rgba(37,99,235,.22);} 70%{ box-shadow: 0 0 0 25px rgba(37,99,235,0);} 100%{ box-shadow: 0 0 0 0 rgba(37,99,235,0);} }
+
+    .svg-wrap { width: 100%; max-width: 520px; aspect-ratio:1; position: relative; margin: 0 auto; }
+    .svg-wrap svg { display:block; width:100%; height:auto; overflow: visible; }
+    .svg-wrap .center-text { position: absolute; inset: 0; display:grid; place-items:center; text-align:center; padding: 8px; }
+    .target-label { font-size: clamp(14px, 2.5vw, 16px); color: var(--muted); }
+    .target-time { font-size: clamp(36px, 9vw, 56px); font-weight: 900; letter-spacing: -0.02em; }
+    .now-time { font-size: clamp(28px, 8vw, 48px); font-weight: 800; color: var(--accent); margin-top: 6px; }
+
+    .status { display:flex; flex-wrap:wrap; gap: 10px; align-items:center; justify-content:center; margin-top: 10px; font-size: 15px; color: var(--muted); }
+    .status b { color: var(--accent); }
+    .status .good { color: var(--good); font-weight: 700; }
+    .status .bad { color: var(--bad); font-weight: 700; }
+
+    .btns { display:flex; gap: 10px; justify-content:center; flex-wrap:wrap; margin-top: 14px; }
+
+    .log { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; background: #f1f5f9; border-radius: 12px; padding: 12px; border: 1px solid rgba(0,0,0,.06); max-height: 280px; overflow:auto; min-width: 0; }
+
+    .aside { display:grid; gap: 12px; min-width: 0; }
+    .record { display:grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .record .box { background:#f9fafb; border:1px solid rgba(0,0,0,.08); border-radius: 12px; padding: 10px; text-align:center; }
+    .record .num { font-size: 22px; font-weight: 900; }
+
+    ins.adsbygoogle { display:block; max-width:100%; overflow:hidden; }
+    footer { max-width: 980px; margin: 0 auto; padding: 24px 16px 60px; color: var(--muted); font-size: 14px; }
+    .hr { height:1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,.12), transparent); margin: 6px 0 16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">⏱️ 반응속도 스톱버튼 게임</div>
+    <div class="subtitle">시작을 누르고 <b>목표 시간</b>에 맞춰 STOP! 정밀 타이밍 감각에 도전하세요.</div>
+  </header>
+
+  <main class="container grid2">
+    <section class="card">
+      <div class="controls">
+        <div class="field">
+          <label for="mode">모드</label>
+          <select id="mode" class="select">
+            <option value="single">단일 라운드</option>
+            <option value="series">연속 5라운드</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="difficulty">난이도 (오차 허용)</label>
+          <select id="difficulty" class="select">
+            <option value="0.30">Easy (±0.30s)</option>
+            <option value="0.15" selected>Normal (±0.15s)</option>
+            <option value="0.05">Hard (±0.05s)</option>
+            <option value="0.01">Ultra (±0.01s)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="target">목표 시간 (초)</label>
+          <input id="target" class="input" type="number" step="0.01" min="0.5" max="10" placeholder="랜덤" />
+        </div>
+        <div class="field">
+          <label>옵션</label>
+          <div class="toggle"><input type="checkbox" id="randTarget" checked> <label for="randTarget">목표 시간 랜덤</label></div>
+          <div class="toggle"><input type="checkbox" id="pressureFx"> <label for="pressureFx">심리 압박 효과</label></div>
+          <div class="toggle"><input type="checkbox" id="soundFx" checked> <label for="soundFx">사운드 효과</label></div>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="svg-wrap">
+          <svg id="ring" viewBox="0 0 120 120" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2563eb" />
+                <stop offset="100%" stop-color="#a78bfa" />
+              </linearGradient>
+            </defs>
+            <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" stroke-width="10" opacity="0.9" />
+            <circle id="progress" cx="60" cy="60" r="54" fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292" transform="rotate(-90 60 60)" />
+          </svg>
+          <div class="center-text">
+            <div class="target-label">목표</div>
+            <div class="target-time" id="targetTime">–.--s</div>
+            <div class="now-time" id="nowTime">0.00s</div>
+          </div>
+        </div>
+        <div class="status" id="status">준비되면 시작을 누르세요.</div>
+        <div class="btns">
+          <button class="btn" id="btnStart">게임 시작</button>
+          <button class="btn secondary" id="btnStop" disabled>STOP</button>
+          <button class="btn ghost" id="btnRetry">재설정</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+      <div class="log" id="log" aria-live="polite"></div>
+
+      <!-- 중간 AdSense -->
+      <div style="margin-top:12px;">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="9308819587" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+    </section>
+
+    <aside class="aside">
+      <div class="card">
+        <h2 style="margin:0 0 8px;">📈 내 기록</h2>
+        <div class="record">
+          <div class="box"><div>최소 오차</div><div class="num" id="bestError">–</div></div>
+          <div class="box"><div>최고 연속 성공</div><div class="num" id="bestStreak">–</div></div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="btn secondary" id="btnClear">기록 초기화</button>
+          <button class="btn" id="btnShare">결과 공유</button>
+        </div>
+      </div>
+
+      <!-- 사이드 AdSense -->
+      <div class="card">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="2486645963" data-ad-format="rectangle" data-full-width-responsive="true"></ins>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="hr"></div>
+    <div style="color:#64748b;">© <span id="yy"></span> Stop Button Game. 간단한 브라우저 게임 – 서버 없이 바로 즐기기.</div>
+  </footer>
+
+  <!-- Kakao SDK & 공유 (임시 키: 실제 키로 교체) -->
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js" defer></script>
+
+  <script>
+  // ====== 유틸 ======
+  const $ = (sel) => document.querySelector(sel);
+  const logEl = $('#log');
+  const addLog = (html) => { const p = document.createElement('p'); p.innerHTML = html; logEl.prepend(p); };
+  const fmt = (n) => (Math.round(n * 100) / 100).toFixed(2);
+
+  // ====== 상태 ======
+  let running = false;
+  let tStart = 0;            // performance.now() 기준 ms
+  let targetSec = 0;         // s
+  let rafId = null;
+  let seriesCount = 0;
+  let seriesScore = 0;       // 오차 합산 (작을수록 좋음)
+  let successStreak = 0;
+
+  // 기록 저장
+  const store = {
+    get bestError(){ return localStorage.getItem('stopgame_best_error'); },
+    set bestError(v){ localStorage.setItem('stopgame_best_error', String(v)); },
+    get bestStreak(){ return localStorage.getItem('stopgame_best_streak'); },
+    set bestStreak(v){ localStorage.setItem('stopgame_best_streak', String(v)); },
+    clear(){ localStorage.removeItem('stopgame_best_error'); localStorage.removeItem('stopgame_best_streak'); }
+  };
+
+  // UI refs
+  const progress = document.getElementById('progress');
+  const targetTimeEl = document.getElementById('targetTime');
+  const nowTimeEl = document.getElementById('nowTime');
+  const statusEl = document.getElementById('status');
+  const btnStart = document.getElementById('btnStart');
+  const btnStop = document.getElementById('btnStop');
+  const btnRetry = document.getElementById('btnRetry');
+  const btnClear = document.getElementById('btnClear');
+  const btnShare = document.getElementById('btnShare');
+  const modeSel = document.getElementById('mode');
+  const diffSel = document.getElementById('difficulty');
+  const targetInp = document.getElementById('target');
+  const randTarget = document.getElementById('randTarget');
+  const pressureFx = document.getElementById('pressureFx');
+  const soundFx = document.getElementById('soundFx');
+  const bestErrorEl = document.getElementById('bestError');
+  const bestStreakEl = document.getElementById('bestStreak');
+
+  // 사운드: 간단한 비프음을 WebAudio로 생성
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let audioCtx = null;
+  function beep(freq = 880, dur = 0.06, type = 'sine', vol = 0.05){
+    if(!soundFx.checked) return;
+    if(!audioCtx) audioCtx = new AudioCtx();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.value = vol; o.connect(g); g.connect(audioCtx.destination);
+    o.start(); setTimeout(()=>{ o.stop(); }, dur*1000);
+  }
+  function successTone(){ beep(1200, .07, 'square', .06); setTimeout(()=>beep(1800, .09, 'square', .06), 80); }
+  function failTone(){ beep(220, .09, 'sawtooth', .06); setTimeout(()=>beep(160, .10, 'sawtooth', .06), 90); }
+
+  // 원형 진행바 업데이트
+  const CIRC = 2 * Math.PI * 54; // stroke-dasharray
+  function setProgress01(p){
+    const off = CIRC * (1 - Math.max(0, Math.min(1, p)));
+    progress.style.strokeDashoffset = String(off);
+  }
+
+  // 목표 시간 생성
+  function makeTarget(){
+    if(randTarget.checked){
+      // 0.50 ~ 10.00 사이에서 소수점 둘째 자리로 랜덤
+      const v = Math.random() * 9.5 + 0.5; // 0.5~10.0
+      return Math.round(v*100)/100;
+    }
+    const manual = parseFloat(targetInp.value);
+    if(!isNaN(manual)) return Math.max(0.5, Math.min(10, Math.round(manual*100)/100));
+    return 3.00;
+  }
+
+  function refreshRecords(){
+    bestErrorEl.textContent = store.bestError ? (Number(store.bestError)).toFixed(3) + 's' : '–';
+    bestStreakEl.textContent = store.bestStreak ?? '–';
+  }
+
+  function setStatus(html){ statusEl.innerHTML = html; }
+  function setTarget(v){ targetSec = v; targetTimeEl.textContent = v.toFixed(2) + 's'; }
+
+  function resetUI(){
+    running = false; cancelAnimationFrame(rafId); rafId = null;
+    nowTimeEl.textContent = '0.00s'; setProgress01(0);
+    btnStart.disabled = false; btnStop.disabled = true; document.getElementById('stage')?.classList.remove('pressure');
+    setStatus('준비되면 시작을 누르세요.');
+  }
+
+  function startGame(){
+    const stage = document.getElementById('stage');
+    // 회차 설정
+    const mode = modeSel.value; // single | series
+    if(mode === 'single') { seriesCount = 1; seriesScore = 0; successStreak = 0; }
+    else { seriesCount = 5; seriesScore = 0; successStreak = 0; }
+
+    // 목표 시간 초기화
+    const t = makeTarget(); setTarget(t);
+
+    // 압박 효과
+    if(pressureFx.checked) stage.classList.add('pressure'); else stage.classList.remove('pressure');
+
+    // 시작
+    tStart = performance.now(); running = true; btnStart.disabled = true; btnStop.disabled = false;
+    setStatus(`진행 중… <b>${t.toFixed(2)}s</b> 에 맞춰 멈추세요.`);
+
+    // 애니메이션 루프
+    const loop = () => {
+      if(!running) return;
+      const now = performance.now();
+      const elapsed = (now - tStart) / 1000; // s
+      nowTimeEl.textContent = elapsed.toFixed(2) + 's';
+
+      // 시각 속임수(압박): 진행 후반부에서 약간 더 빨라보이게
+      const visual = pressureFx.checked ? easeOutBack(Math.min(1, elapsed / targetSec)) : Math.min(1, elapsed / targetSec);
+      setProgress01(visual);
+
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+  }
+
+  // 시각 속임수 easing
+  function easeOutBack(x){ const c1 = 1.70158; const c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+
+  function stopGame(){
+    if(!running) return;
+    running = false; cancelAnimationFrame(rafId); rafId = null; btnStop.disabled = true; btnStart.disabled = false; document.getElementById('stage')?.classList.remove('pressure');
+
+    const elapsed = (performance.now() - tStart) / 1000; // s
+    nowTimeEl.textContent = elapsed.toFixed(2) + 's';
+    const error = Math.abs(elapsed - targetSec);
+    const tol = parseFloat(diffSel.value);
+    const ok = error <= tol;
+
+    // 기록 업데이트
+    const prevBest = store.bestError ? Number(store.bestError) : null;
+    if(prevBest === null || error < prevBest) store.bestError = error;
+
+    if(ok){ successStreak++; successTone(); }
+    else { successStreak = 0; failTone(); }
+    const prevStreak = store.bestStreak ? Number(store.bestStreak) : 0;
+    if(successStreak > prevStreak) store.bestStreak = successStreak;
+
+    refreshRecords();
+
+    // 라운드 처리
+    seriesScore += error;
+    const msgHead = ok ? `<span class="good">성공</span>` : `<span class="bad">실패</span>`;
+    const msg = `${msgHead}: 목표 <b>${fmt(targetSec)}</b>s, STOP <b>${fmt(elapsed)}</b>s, 오차 <b>${error.toFixed(3)}s</b> (허용 ${tol.toFixed(2)}s)`;
+    addLog(msg);
+    setStatus(msg);
+
+    // 연속 라운드 남았으면 자동 다음 라운드로
+    seriesCount--;
+    if(seriesCount > 0){
+      setTimeout(()=>{
+        // 다음 라운드 자동 시작
+        setTarget(makeTarget());
+        tStart = performance.now(); running = true; btnStop.disabled = false; btnStart.disabled = true; const stage = document.getElementById('stage');
+        if(pressureFx.checked) stage.classList.add('pressure'); else stage.classList.remove('pressure');
+        setStatus(`다음 라운드 시작! 남은 라운드: <b>${seriesCount}</b> | 목표 <b>${fmt(targetSec)}s</b>`);
+        const loop = () => {
+          if(!running) return;
+          const now = performance.now();
+          const elapsed = (now - tStart) / 1000;
+          nowTimeEl.textContent = elapsed.toFixed(2) + 's';
+          const visual = pressureFx.checked ? easeOutBack(Math.min(1, elapsed / targetSec)) : Math.min(1, elapsed / targetSec);
+          setProgress01(visual);
+          rafId = requestAnimationFrame(loop);
+        };
+        rafId = requestAnimationFrame(loop);
+      }, 600);
+    } else {
+      // 세션 종료
+      if(modeSel.value === 'series'){
+        addLog(`세션 종료: 총 오차 합계 <b>${seriesScore.toFixed(3)}s</b> (작을수록 좋음)`);
+        setStatus(`세션 종료! 총 오차 <b>${seriesScore.toFixed(3)}s</b>. 다시 도전해보세요.`);
+      }
+    }
+  }
+
+  // 이벤트 바인딩
+  btnStart.addEventListener('click', () => { startGame(); });
+  btnStop.addEventListener('click', stopGame);
+  btnRetry.addEventListener('click', () => { resetUI(); setTarget(makeTarget()); addLog('재설정 완료.'); });
+  btnClear.addEventListener('click', () => { store.clear(); refreshRecords(); addLog('로컬 기록을 초기화했습니다.'); });
+
+  // Kakao 공유 (SDK 로드 후 초기화)
+  window.addEventListener('load', () => {
+    try {
+      if(window.Kakao && !window.Kakao.isInitialized()){
+        // 실제 앱 키로 교체 필요
+        window.Kakao.init('bc10e9f9bd36a6b9bf11c56538179c22');
+      }
+    } catch(e) { console.warn('Kakao init 실패', e); }
+
+    // 공유 버튼
+    btnShare.addEventListener('click', () => {
+      const shareTitle = '반응속도 스톱버튼 게임 – 목표 시간에 딱 맞춰 멈춰라!';
+      const shareDesc = statusEl.textContent || '내 기록을 확인해보세요!';
+      const shareUrl = location.href;
+      try {
+        if(window.Kakao){
+          Kakao.Share.sendDefault({
+            objectType: 'feed',
+            content: {
+              title: shareTitle,
+              description: shareDesc,
+              imageUrl: document.querySelector('meta[property="og:image"]').content,
+              link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+            },
+            buttons: [ { title: '게임 하러 가기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } } ]
+          });
+        } else if(navigator.share){
+          navigator.share({ title: shareTitle, text: shareDesc, url: shareUrl });
+        } else {
+          navigator.clipboard.writeText(shareUrl);
+          addLog('공유 링크를 클립보드에 복사했습니다.');
+        }
+      } catch(e){
+        console.warn(e);
+        if(navigator.clipboard){ navigator.clipboard.writeText(shareUrl); addLog('공유 링크를 복사했습니다.'); }
+      }
+    });
+
+    // 초기 값
+    document.getElementById('yy').textContent = new Date().getFullYear();
+    setTarget(makeTarget());
+    refreshRecords();
+
+    // AdSense 요청 트리거 (중간/사이드 2곳만)
+    try{
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    }catch(e){ /* adblock 등 무시 */ }
+  });
+  </script>
+</body>
+</html>
