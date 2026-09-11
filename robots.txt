@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://stop-watch-game.enjoy-onepage.com/sitemap.xml
