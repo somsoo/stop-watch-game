@@ -24,18 +24,57 @@
 <meta content="https://stop-watch-game.enjoy-onepage.com/og-image.png" name="twitter:image"/>
 <!-- Structured Data -->
 <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "반응속도 스톱버튼 게임",
-    "url": "https://stop-watch-game.enjoy-onepage.com",
-    "description": "브라우저에서 즐기는 타이밍 스톱버튼 게임. 목표 시간에 맞춰 STOP을 눌러 기록을 세워보세요.",
-    "potentialAction": {
-      "@type": "PlayAction",
-      "name": "Start Game",
-      "target": "https://stop-watch-game.enjoy-onepage.com"
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://stop-watch-game.enjoy-onepage.com/#webapp",
+      "name": "⏱️ 반응속도 스톱버튼 게임",
+      "url": "https://stop-watch-game.enjoy-onepage.com/",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "description": "원페이지 미니게임: 시작→STOP! 목표 시간에 딱 맞추면 하이 스코어.",
+      "image": "https://stop-watch-game.enjoy-onepage.com/og-image.png",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://stop-watch-game.enjoy-onepage.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "모바일 터치와 PC 마우스 클릭 중 어느 쪽이 더 빠른가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "디스플레이 터치스크린은 터치 입력 지연(Touch Latency 약 30~50ms)이 발생하므로, 유선 게이밍 마우스나 기계식 키보드를 사용할 때 반응속도가 훨씬 빠릅니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "반응속도를 훈련으로 향상시킬 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네, 시각 자극에 대한 인지 피드백 훈련을 반복하면 전두엽-소뇌 신경 회로의 신호 전달 속도가 최적화되어 20~40ms 이상 반응시간을 단축할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "친구들과 기록을 공유하여 대결할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네, 측정 후 하단의 '결과 복사하기' 버튼을 누르면 내 오차 기록(예: ±0.03초)이 클립보드에 복사되어 카카오톡이나 SNS에 즉시 공유할 수 있습니다."
+          }
+        }
+      ]
     }
-  }
+  ]
+}
   </script>
 <link href="/favicon.ico" rel="icon"/>
 <link href="/apple-touch-icon.png" rel="apple-touch-icon"/>
