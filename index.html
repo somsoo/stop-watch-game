@@ -208,6 +208,16 @@
     overflow: hidden !important;
   }
 </style>
+<style id="mobile-hardening-shield">
+  @media (max-width: 640px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+    button, [role="button"], a.btn {
+      min-height: 42px;
+    }
+  }
+</style>
 </head>
 <body>
 <!-- 상단 슬림 띠배너 (헤더 직하단: 50~60px 슬림형) -->
