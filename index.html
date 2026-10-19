@@ -8,7 +8,7 @@
 
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>반응속도 스톱버튼 게임 – 목표 시간에 딱 맞춰</title>
+<title>반응속도 스톱버튼 게임 | 목표 시간 맞추기</title>
 <meta content="원페이지 미니게임: 시작→STOP! 목표 시간에 딱 맞추면 하이 스코어." name="description"/>
 <meta content="반응속도, 타이밍 게임, 스톱버튼, 원페이지, 브라우저 게임, 타이머 게임, 집중력 게임, 카카오 공유, 반응속도 테스트" name="keywords"/>
 <meta content="index,follow" name="robots"/>
@@ -775,7 +775,7 @@
       window.copyResultToClipboard = function(textToCopy, customBtn) {
         if (!textToCopy) {
           const resEl = document.querySelector('#result, .result-box, [id*="result"], [class*="result"]');
-          textToCopy = resEl ? resEl.innerText.trim() : window.location.href;
+          textToCopy = resEl ? resEl.textContent.trim() : window.location.href;
         }
         navigator.clipboard.writeText(textToCopy + "\n\n👉 계산기 바로가기: " + window.location.href).then(() => {
           showToastNotification('계산 결과가 클립보드에 복사되었습니다!');
@@ -825,7 +825,7 @@
       let textToCopy = customText;
       if (!textToCopy) {
         const resEl = document.querySelector('#resultBox, .result-card, #result, [id*="result"], [class*="result"], [id*="res"]');
-        textToCopy = resEl ? resEl.innerText.trim() : document.title;
+        textToCopy = resEl ? resEl.textContent.trim() : document.title;
       }
       const fullText = textToCopy + "\n\n👉 바로가기: " + window.location.href;
       if (navigator.clipboard && navigator.clipboard.writeText) {
